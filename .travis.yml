@@ -1,0 +1,27 @@
+language: node_js
+node_js:
+    - "8"
+    - "9"
+
+branches:
+    only:
+        - master
+        - /^\d\.\d\.x$/
+
+before_install:
+    # Execute the commands which need to be executed before installing dependencies
+
+
+install:
+    # Install the dependencies
+    - npm install
+
+before_script:
+    # Execute the commands which need to be executed before running actual tests
+
+script:
+    # Execute the commands which should make the build pass or fail
+    - npm test
+
+after_success: npm run coveralls
+

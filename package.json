@@ -1,0 +1,64 @@
+{
+    "name": "solfegejs-application",
+    "description": "The Solfege application",
+    "version": "3.0.0",
+    "author": "neolao <contact@neolao.com>",
+    "private": false,
+    "repository": "https://github.com/neolao/solfege-application.git",
+    "license": "MIT",
+    "keywords": [
+        "solfege"
+    ],
+    "files": [
+        "lib",
+        "src"
+    ],
+    "main": "lib/Application.js",
+    "engines": {
+        "node": ">= 9"
+    },
+    "devDependencies": {
+        "babel-cli": "^6.26.0",
+        "babel-preset-solfege": "^1.1.1",
+        "chai": "^4.1.2",
+        "co-mocha": "^1.2.1",
+        "coveralls": "^2.13.3",
+        "eslint": "^4.12.1",
+        "eslint-plugin-solfege": "1.0.*",
+        "flow-bin": "^0.60.1",
+        "jsdoc": "^3.5.5",
+        "mocha": "^3.5.3",
+        "nyc": "^11.4.0",
+        "watch": "^1.0.2"
+    },
+    "scripts": {
+        "flow-stop": "flow stop",
+        "flow-start": "flow start",
+        "flow-restart": "flow stop --quiet && flow start --quiet",
+        "prepare": "npm run build && npm test",
+        "lint": "eslint --ext .js src",
+        "test": "mocha --harmony --compilers js:babel-core/register --require co-mocha --recursive --reporter spec --bail",
+        "coverage": "nyc --clean npm test",
+        "coverage-check": "nyc --clean check-coverage npm test",
+        "coveralls": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
+        "prebuild": "npm run lint && npm run flow-restart && flow",
+        "postbuild": "nyc --clean npm test && nyc check-coverage npm test",
+        "build": "babel --out-dir lib src --copy-files",
+        "watch": "watch 'echo \"----------\"; npm run build --silent' ./src ./test",
+        "example-build": "flow; babel --out-dir example/lib example/src --copy-files",
+        "example-console": "node example/lib/console.js"
+    },
+    "babel": {
+        "presets": [
+            "solfege"
+        ],
+        "comments": false,
+        "plugins": []
+    },
+    "eslintConfig": {
+        "extends": [
+            "eslint:recommended",
+            "plugin:solfege/recommended"
+        ]
+    }
+}
