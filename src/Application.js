@@ -1,7 +1,7 @@
 /* @flow */
 import assert from "assert"
 import path from "path"
-import fs from "./util/fs"
+import fs from "fs"
 import EventEmitter from "events"
 import Configuration from "./Configuration"
 import type {BundleInterface} from "./BundleInterface"
@@ -229,7 +229,7 @@ export default class Application extends EventEmitter
         // Load configuration file
         let configuration:Configuration = this.getConfiguration();
         if (typeof this.configurationFilePath === "string") {
-            let configurationFileExists = await fs.exists(this.configurationFilePath);
+            let configurationFileExists = fs.existsSync(this.configurationFilePath);
             if (!configurationFileExists) {
                 throw new Error(`Configuration file not found: ${this.configurationFilePath}`);
             }

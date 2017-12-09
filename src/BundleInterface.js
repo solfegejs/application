@@ -21,7 +21,7 @@ export interface InitializableBundleInterface
      *
      * @param   {Application}   application     Solfege application instance
      */
-    initialize(application:Application):void | Generator<*,void,*>;
+    initialize(application:Application):void;
 }
 
 export interface DependentBundleInterface
@@ -39,5 +39,5 @@ export interface BootableBundleInterface
     /**
      * Boot the bundle
      */
-    boot():void | Generator<*,void,*>;
+    boot():void;
 }
