@@ -32,9 +32,6 @@ export default class Bundle implements BundleInterface, InitializableBundleInter
 
     onStart(app:Application, parameters:Array<String> = [])
     {
-        let config = app.getConfiguration();
-        console.log("a:", config.get("a"));
-        console.log("z:", config.get("z"));
-        console.log("parameters.foo:", config.get("parameters.foo"));
+        console.log("main_directory_path = ", app.getParameter("main_directory_path"));
     }
 }

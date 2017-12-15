@@ -98,18 +98,6 @@ describe("Application", () => {
         });
     });
 
-    describe("#addConfigurationProperties()", () => {
-        it("should add new properties to the configuration", () => {
-            let application = new Application;
-
-            application.addConfigurationProperties({foo: "bar"});
-            application.addConfigurationProperties({tic: "tac"});
-
-            expect(application.getConfiguration().get("foo")).to.equal("bar");
-            expect(application.getConfiguration().get("tic")).to.equal("tac");
-        });
-    });
-
     describe("#start()", () => {
         it("should emit start event", function (done) {
             let application = new Application;
@@ -129,28 +117,6 @@ describe("Application", () => {
                 done();
             });
 
-            application.start();
-        });
-
-        it("should fail if the configuration file does not exist", (done) => {
-            let application = new Application;
-
-            application.disableDefaultErrorListener();
-            application.setConfigurationFile(`${__dirname}/configurationFiles/unknown.yml`);
-            application.on(Application.EVENT_ERROR, (error) => {
-                done();
-            });
-            application.start();
-        });
-
-        it("should load the configuration file if it exists", (done) => {
-            let application = new Application;
-
-            application.disableDefaultErrorListener();
-            application.setConfigurationFile(`${__dirname}/configurationFiles/simple.yml`);
-            application.on(Application.EVENT_END, (app) => {
-                done();
-            });
             application.start();
         });
 

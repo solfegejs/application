@@ -1,7 +1,7 @@
 {
     "name": "solfegejs-application",
     "description": "The Solfege application",
-    "version": "3.0.1",
+    "version": "3.1.0",
     "author": "neolao <contact@neolao.com>",
     "private": false,
     "repository": "https://github.com/neolao/solfege-application.git",

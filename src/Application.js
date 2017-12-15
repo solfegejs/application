@@ -1,9 +1,7 @@
 /* @flow */
 import assert from "assert"
 import path from "path"
-import fs from "fs"
 import EventEmitter from "events"
-import Configuration from "./Configuration"
 import type {BundleInterface} from "./BundleInterface"
 import packageJson from "../package.json"
 
@@ -16,8 +14,6 @@ const _consoleError:Symbol = Symbol();
  */
 export default class Application extends EventEmitter
 {
-    static EVENT_CONFIGURATION_LOAD:string     = "configuration_load";
-    static EVENT_CONFIGURATION_LOADED:string   = "configuration_loaded";
     static EVENT_BUNDLES_INITIALIZED:string    = "bundles_initialized";
     static EVENT_BUNDLES_BOOTED:string         = "bundles_booted";
     static EVENT_START:string                  = "start";
@@ -28,21 +24,6 @@ export default class Application extends EventEmitter
      * Parameters
      */
     parameters:Map<string, *>;
-
-    /**
-     * Format of the configuration file
-     */
-    configurationFileFormat:string;
-
-    /**
-     * Configuration file path
-     */
-    configurationFilePath:string;
-
-    /**
-     * Configuration instance
-     */
-    configuration:Configuration;
 
     /**
      * Bundle list
@@ -58,10 +39,7 @@ export default class Application extends EventEmitter
 
         // Initialize parameter list
         this.parameters = new Map;
-
-        // Initialize configuration
-        this.configuration = new Configuration;
-        this.configuration.set("main_directory_path", path.dirname(require.main.filename));
+        this.setParameter("main_directory_path", path.dirname(require.main.filename));
 
         // Initialize the bundle registry
         this.bundles = new Set();
@@ -151,38 +129,6 @@ export default class Application extends EventEmitter
     }
 
     /**
-     * Set configuration file
-     *
-     * @param   {string}    filePath    Configuration file path
-     * @param   {string}    format      File format
-     */
-    setConfigurationFile(filePath:string, format:string):void
-    {
-        this.configurationFilePath = path.resolve(filePath);
-        this.configurationFileFormat = format;
-    }
-
-    /**
-     * Add confguration properties
-     *
-     * @param   {object}    properties  Configuration properties
-     */
-    addConfigurationProperties(properties:Object):void
-    {
-        this.configuration.addProperties(properties);
-    }
-
-    /**
-     * Get configuration
-     *
-     * @return  {Configuration}         Configuration instance
-     */
-    getConfiguration():Configuration
-    {
-        return this.configuration;
-    }
-
-    /**
      * Start the application
      *
      * @param   {Array}     parameters  Application parameters
@@ -226,29 +172,6 @@ export default class Application extends EventEmitter
         }
         await this.emit(Application.EVENT_BUNDLES_INITIALIZED, this);
 
-        // Load configuration file
-        let configuration:Configuration = this.getConfiguration();
-        if (typeof this.configurationFilePath === "string") {
-            let configurationFileExists = fs.existsSync(this.configurationFilePath);
-            if (!configurationFileExists) {
-                throw new Error(`Configuration file not found: ${this.configurationFilePath}`);
-            }
-
-            // Set the directory
-            let configurationDirectory:string = path.dirname(this.configurationFilePath);
-            configuration.set("configuration_directory_path", configurationDirectory);
-
-            // Delegate the loading and parsing
-            await this.emit(
-                Application.EVENT_CONFIGURATION_LOAD,
-                this,
-                configuration,
-                this.configurationFilePath,
-                this.configurationFileFormat
-            );
-        }
-        await this.emit(Application.EVENT_CONFIGURATION_LOADED, this, configuration);
-
         // Boot registered bundles
         for (let bundle of this.bundles) {
             if (typeof bundle.boot === "function") {
@@ -269,9 +192,8 @@ export default class Application extends EventEmitter
     inspect():string
     {
         let properties = {
-            solfegeVersion: packageJson.version,
+            solfegeApplicationVersion: packageJson.version,
             bundleCount: this.bundles.size,
-            configurationFilePath: this.configurationFilePath
         };
         let output = "SolfegeJS/Application ";
         output += JSON.stringify(properties, null, "  ");
