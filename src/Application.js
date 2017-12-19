@@ -160,14 +160,22 @@ export default class Application extends EventEmitter
         // @todo Check DependentBundleInterface
         for (let bundle of this.bundles) {
             if (typeof bundle.installDependencies === "function") {
-                await bundle.installDependencies(this);
+                if (bundle.installDependencies.constructor.name === "AsyncFunction") {
+                    await bundle.installDependencies(this);
+                } else {
+                    bundle.installDependencies(this);
+                }
             }
         }
 
         // Initialize registered bundles
         for (let bundle of this.bundles) {
             if (typeof bundle.initialize === "function") {
-                await bundle.initialize(this);
+                if (bundle.initialize.constructor.name === "AsyncFunction") {
+                    await bundle.initialize(this);
+                } else {
+                    bundle.initialize(this);
+                }
             }
         }
         await this.emit(Application.EVENT_BUNDLES_INITIALIZED, this);
@@ -175,7 +183,11 @@ export default class Application extends EventEmitter
         // Boot registered bundles
         for (let bundle of this.bundles) {
             if (typeof bundle.boot === "function") {
-                await bundle.boot();
+                if (bundle.boot.constructor.name === "AsyncFunction") {
+                    await bundle.boot();
+                } else {
+                    bundle.boot();
+                }
             }
         }
         await this.emit(Application.EVENT_BUNDLES_BOOTED, this);

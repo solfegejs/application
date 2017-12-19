@@ -149,7 +149,7 @@ describe("Application", () => {
             let order = [];
             let firstBundle = {
                 getPath: () => {},
-                initialize: (app) => {
+                initialize: async (app) => {
                     return new Promise((resolve, reject) => {
                         setTimeout(() => {
                             order.push("a");
@@ -190,7 +190,7 @@ describe("Application", () => {
             let order = [];
             let firstBundle = {
                 getPath: () => {},
-                boot: (app) => {
+                boot: async (app) => {
                     return new Promise((resolve, reject) => {
                         setTimeout(() => {
                             order.push("a");
