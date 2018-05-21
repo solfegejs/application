@@ -1,7 +1,7 @@
 {
     "name": "solfegejs-application",
     "description": "The Solfege application",
-    "version": "3.1.1",
+    "version": "3.1.2",
     "author": "neolao <contact@neolao.com>",
     "private": false,
     "repository": "https://github.com/neolao/solfege-application.git",
@@ -19,16 +19,16 @@
     },
     "devDependencies": {
         "babel-cli": "^6.26.0",
-        "babel-preset-solfege": "^1.1.1",
+        "babel-preset-solfege": "^1.2.2",
         "chai": "^4.1.2",
         "co-mocha": "^1.2.1",
-        "coveralls": "^2.13.3",
-        "eslint": "^4.12.1",
-        "eslint-plugin-solfege": "1.0.*",
+        "coveralls": "^3.0.1",
+        "eslint": "^4.19.1",
+        "eslint-plugin-solfege": "^1.0.4",
         "flow-bin": "^0.60.1",
         "jsdoc": "^3.5.5",
-        "mocha": "^3.5.3",
-        "nyc": "^11.4.0",
+        "mocha": "^5.2.0",
+        "nyc": "^11.8.0",
         "watch": "^1.0.2"
     },
     "scripts": {
