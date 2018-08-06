@@ -1,2 +1,2 @@
-# solfege-application
 SolfegeJS application
+=====================

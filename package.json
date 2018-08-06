@@ -1,64 +1,54 @@
 {
     "name": "solfegejs-application",
-    "description": "The Solfege application",
-    "version": "3.1.2",
+    "description": "SolfegeJS application",
+    "version": "4.0.0",
     "author": "neolao <contact@neolao.com>",
     "private": false,
-    "repository": "https://github.com/neolao/solfege-application.git",
+    "repository": "https://github.com/solfegejs/application.git",
     "license": "MIT",
     "keywords": [
         "solfege"
     ],
     "files": [
-        "lib",
-        "src"
+        "lib"
     ],
     "main": "lib/Application.js",
     "engines": {
-        "node": ">= 9"
+        "node": ">= 10.8"
     },
     "devDependencies": {
-        "babel-cli": "^6.26.0",
-        "babel-preset-solfege": "^1.2.2",
-        "chai": "^4.1.2",
-        "co-mocha": "^1.2.1",
-        "coveralls": "^3.0.1",
-        "eslint": "^4.19.1",
-        "eslint-plugin-solfege": "^1.0.4",
-        "flow-bin": "^0.72.0",
-        "jsdoc": "^3.5.5",
-        "mocha": "^5.2.0",
-        "nyc": "^11.8.0",
+        "eslint": "^5.3.0",
+        "eslint-plugin-node": "^7.0.1",
+        "jest": "^23.4.2",
+        "prettier": "^1.14.0",
+        "prettier-eslint": "^8.8.2",
+        "prettier-eslint-cli": "^4.7.1",
         "watch": "^1.0.2"
     },
     "scripts": {
-        "flow-stop": "flow stop",
-        "flow-start": "flow start",
-        "flow-restart": "flow stop --quiet && flow start --quiet",
-        "prepare": "npm run build && npm test",
-        "lint": "eslint --ext .js src",
-        "test": "mocha --harmony --compilers js:babel-core/register --require co-mocha --recursive --reporter spec --bail",
-        "coverage": "nyc --clean npm test",
-        "coverage-check": "nyc --clean check-coverage npm test",
-        "coveralls": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
-        "prebuild": "npm run lint && flow",
-        "postbuild": "nyc --clean npm test && nyc check-coverage npm test",
-        "build": "babel --out-dir lib src --copy-files",
-        "watch": "watch 'echo \"----------\"; npm run build --silent' ./src ./test",
-        "example-build": "flow; babel --out-dir example/lib example/src --copy-files",
-        "example-console": "node example/lib/console.js"
-    },
-    "babel": {
-        "presets": [
-            "solfege"
-        ],
-        "comments": false,
-        "plugins": []
+        "prepare": "npm run lint",
+        "lint": "prettier-eslint --list-different \"lib/**/*.js\"",
+        "lint-fix": "prettier-eslint --write \"lib/**/*.js\"",
+        "prettier": "prettier-eslint",
+        "test": "jest",
+        "watch": "watch 'echo \"\\033[41;37m      LINT      \\033[0m\"; npm run --silent lint-fix' ./lib",
+        "example-console": "node example/console.js"
     },
     "eslintConfig": {
+        "parserOptions": {
+            "ecmaVersion": 2019
+        },
         "extends": [
             "eslint:recommended",
-            "plugin:solfege/recommended"
+            "plugin:node/recommended"
+        ]
+    },
+    "jest": {
+        "moduleFileExtensions": [
+            "js"
+        ],
+        "collectCoverageFrom": [
+            "lib/**/*.js"
         ]
     }
 }
