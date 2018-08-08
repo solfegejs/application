@@ -1,3 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Application addBundle() should throw an error if the bundle does not have getPath() method 1`] = `"TypeError: Invalid bundle, getPath() method is missing"`;
+
+exports[`Application addBundle() should throw an error if the bundle.getPath() does not return a directory 1`] = `"Invalid bundle, getPath() does not return a directory"`;
+
 exports[`Application setParameter() should throw an error if the parameter name is not a string 1`] = `"TypeError: Parameter name should be a string, invalid type: number"`;
